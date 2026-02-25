@@ -24,7 +24,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: infra
+        working-directory: .
 
     steps:
       - name: Checkout
