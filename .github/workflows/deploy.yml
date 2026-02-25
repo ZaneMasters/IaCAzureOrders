@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  TF_LOG: INFO
+  TF_LOG: DEBUG
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -43,7 +43,7 @@ jobs:
         run: terraform validate -no-color
 
       - name: Terraform Plan
-        run: terraform plan -no-color
+        run: terraform plan -var-file="prod.terraform.tfvars" -no-color
 
   terraform-apply:
     name: Terraform Apply (Main)
@@ -51,7 +51,6 @@ jobs:
     runs-on: ubuntu-latest
 
     environment: production
-
 
     steps:
       - name: Checkout
@@ -71,7 +70,7 @@ jobs:
             -backend-config="key=prod.terraform.tfstate"
 
       - name: Terraform Plan
-        run: terraform plan -no-color -out=tfplan
+        run: terraform plan -no-color -var-file="prod.terraform.tfvars" -out=tfplan
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
