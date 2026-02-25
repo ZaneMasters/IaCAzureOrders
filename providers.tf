@@ -7,8 +7,11 @@ terraform {
       version = "~> 3.100"
     }
   }
+
+  backend "azurerm" {}
 }
 
 provider "azurerm" {
   features {}
+  skip_provider_registration = true
 }
